@@ -82,38 +82,24 @@ def log_stop_execution():
     
 
 def sleep(seconds):
-    if SharedState.stop_execution:
-        logging.info("Execução interrompida.")
-        return
     
-    log_stop_execution()
     
     time.sleep(seconds)
 
-def safe_click(coords):
-    if SharedState.stop_execution:
-        logging.info("Execução interrompida.")
-        return
+def safe_click(coords):   
     
-    log_stop_execution()
 
     pdi.moveTo(*coords)
     pdi.click()
     sleep(0.5)
 
 def keyboard_pressed(key):
-    if SharedState.stop_execution:
-        logging.info("Execução interrompida.")
-        return
-
-    log_stop_execution()
+    
     
     pdi.press(key)
 
 def hotkey(*keys):
-    if SharedState.stop_execution:
-        logging.info("Execução interrompida.")
-        return
+    
 
     for key in keys[:-1]:
         pdi.keyDown(key)
@@ -204,9 +190,7 @@ def process_lines(df):
     df["Status"] = df["Status"].astype(str)
 
     for index, row in df.iterrows():
-        if SharedState.stop_execution:
-            logging.info("Execução interrompida.")
-            break
+        
 
         cell_value = row.iloc[0]
         status_value = row["Status"]
@@ -218,29 +202,12 @@ def process_lines(df):
         try:
             if status_value != "Finalizada":
 
-                if SharedState.stop_execution:
-                    logging.info("Execução interrompida.")
-                    break
+                
+
                 insert_os(cell_value)
-
-                if SharedState.stop_execution:
-                    logging.info("Execução interrompida.")
-                    break
                 add_doc()
-
-                if SharedState.stop_execution:
-                    logging.info("Execução interrompida.")
-                    break
                 fill_data()
-
-                if SharedState.stop_execution:
-                    logging.info("Execução interrompida.")
-                    break
                 end_service()
-
-                if SharedState.stop_execution:
-                    logging.info("Execução interrompida.")
-                    break
                 finalize_line(df, index)
                 
             else:

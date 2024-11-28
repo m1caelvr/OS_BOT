@@ -33,13 +33,15 @@ class ScriptController:
         finally:
             await self.reset_ui()
 
-    async def start_script(self, e):
+    async def start_script(self, e, page):
         SharedState.stop_execution = False
         self.start_button.disabled = True
         self.stop_button.disabled = False
+
+        page.update()
         await asyncio.sleep(.5)
 
-        await self.page.update_async()
+        self.page.update()
         
         if self.script_task and not self.script_task.done():
             self.script_task.cancel()
@@ -50,7 +52,7 @@ class ScriptController:
         
         self.script_task = asyncio.create_task(self.run_script())
         
-    async def stop_script(self, e):
+    async def stop_script(self, e, page):
         print("Entrou no stop_script")
         SharedState.stop_execution = True
         logging.info("Execução interrompida pelo botão 'Interromper'.")
@@ -67,7 +69,7 @@ class ScriptController:
         self.stop_button.disabled = True
         await asyncio.sleep(.5)
 
-        await self.page.update_async()
+        self.page.update()
 
 def main(page: ft.Page):
     page.window.width = 250
@@ -79,10 +81,10 @@ def main(page: ft.Page):
     controller = ScriptController(page)
 
     async def start_script_wrapper(e):
-        await controller.start_script(e)
+        await controller.start_script(e, page)
 
     async def stop_script_wrapper(e):
-        await controller.stop_script(e)
+        await controller.stop_script(e, page)
 
     controller.start_button = ft.ElevatedButton(
         "Iniciar Script", 
