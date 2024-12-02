@@ -1,6 +1,6 @@
+import asyncio
 import flet as ft
 import logging
-import asyncio
 import tracemalloc
 from Class.shared_state import SharedState
 from Bot import start_bot
@@ -13,7 +13,8 @@ class ScriptController:
         self.script_task = None
         self.start_button = None
         self.stop_button = None
-        
+        self.is_running = False
+
     async def run_script(self):
         try:
             logging.info("Iniciando o script de automação...")
@@ -33,42 +34,44 @@ class ScriptController:
         finally:
             await self.reset_ui()
 
-    async def start_script(self, e, page):
-        SharedState.stop_execution = False
-        self.start_button.disabled = True
-        self.stop_button.disabled = False
+    async def toggle_script(self, e, page):
+        if not self.is_running:
+            SharedState.stop_execution = False
+            self.is_running = True
+            self.start_button.disabled = True
+            self.stop_button.disabled = False
+            page.update()
 
-        page.update()
-        await asyncio.sleep(.5)
+            await asyncio.sleep(.1)
 
-        self.page.update()
-        
-        if self.script_task and not self.script_task.done():
-            self.script_task.cancel()
-            try:
-                await self.script_task
-            except asyncio.CancelledError:
-                pass
-        
-        self.script_task = asyncio.create_task(self.run_script())
-        
-    async def stop_script(self, e, page):
-        print("Entrou no stop_script")
-        SharedState.stop_execution = True
-        logging.info("Execução interrompida pelo botão 'Interromper'.")
-        
-        if self.script_task and not self.script_task.done():
-            self.script_task.cancel()
-            try:
-                await self.script_task
-            except asyncio.CancelledError:
-                print("Tarefa cancelada com sucesso")
-    
+            if self.script_task and not self.script_task.done():
+                self.script_task.cancel()
+                try:
+                    await self.script_task
+                except asyncio.CancelledError:
+                    pass
+
+            self.script_task = asyncio.create_task(self.run_script())
+        else:
+            SharedState.stop_execution = True
+            self.is_running = False
+            self.start_button.disabled = False
+            self.stop_button.disabled = True
+            page.update()
+
+            await asyncio.sleep(.1)
+
+            if self.script_task and not self.script_task.done():
+                self.script_task.cancel()
+                try:
+                    await self.script_task
+                except asyncio.CancelledError:
+                    print("Tarefa cancelada com sucesso")
+
     async def reset_ui(self):
+        self.is_running = False
         self.start_button.disabled = False
         self.stop_button.disabled = True
-        await asyncio.sleep(.5)
-
         self.page.update()
 
 def main(page: ft.Page):
@@ -80,21 +83,20 @@ def main(page: ft.Page):
 
     controller = ScriptController(page)
 
-    async def start_script_wrapper(e):
-        await controller.start_script(e, page)
-
-    async def stop_script_wrapper(e):
-        await controller.stop_script(e, page)
+    async def toggle_script_wrapper(e):
+        await asyncio.sleep(.1)
+        await controller.toggle_script(e, page)
 
     controller.start_button = ft.ElevatedButton(
-        "Iniciar Script", 
-        on_click=start_script_wrapper
+        "Iniciar BOT",
+        on_click=toggle_script_wrapper
     )
     controller.stop_button = ft.ElevatedButton(
-        "Interromper Script", 
-        on_click=stop_script_wrapper, 
-        disabled=True
+        "Parar BOT",
+        on_click=toggle_script_wrapper
     )
+
+    controller.stop_button.disabled = True
 
     page.add(controller.start_button, controller.stop_button)
     page.update()

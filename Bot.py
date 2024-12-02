@@ -4,7 +4,6 @@ import pydirectinput as pdi
 import pandas as pd
 import pyperclip
 import pyautogui
-import keyboard
 import logging
 import time
 from Class.shared_state import SharedState
@@ -65,7 +64,7 @@ COORDINATES_2 = {
     "INITIAL_SERVICE_DATE": (811,262),
     "FINAL_SERVICE_DATE": (927,257),
     "CLICK_SAVE": (1063,118),
-    "SEARCH_OS_STATE": (391,383),
+    "SEARCH_OS_STATE": (392,383),
     "CLICK_OS_CONCLUDE": (361,317),
     "CLICK_END_SERVICE": (692,482),
 }
@@ -77,146 +76,132 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-def log_stop_execution():
+async def log_stop_execution():
     print(f"stop_execution: {SharedState.stop_execution}")
-    
 
-def sleep(seconds):
-    
-    
+async def sleep(seconds):
     time.sleep(seconds)
 
-def safe_click(coords):   
-    
+async def safe_click(coords):
+    if SharedState.stop_execution:
+        logging.info("Execução interrompida. Cancelando safe_click.")
+        return
+    await asyncio.to_thread(pyautogui.moveTo, *coords)
+    await asyncio.to_thread(pyautogui.click)
+    await asyncio.sleep(0.5)
 
-    pdi.moveTo(*coords)
-    pdi.click()
-    sleep(0.5)
-
-def keyboard_pressed(key):
-    
-    
+async def keyboard_pressed(key):
     pdi.press(key)
 
-def hotkey(*keys):
-    
-
+async def hotkey(*keys):
     for key in keys[:-1]:
         pdi.keyDown(key)
     pdi.press(keys[-1])
     for key in keys[:-1]:
         pdi.keyUp(key)
 
-def finalize_line(df, line_index, file_name="PREVENTIVAS.xlsx"):
+async def finalize_line(df, line_index, file_name="PREVENTIVAS.xlsx"):
     try:
         if line_index in df.index:
             df.at[line_index, "Status"] = "Finalizada"
-            
             df.to_excel(file_name, index=False)
             logging.info(f"Planilha atualizada com sucesso: {file_name}")
-
         else:
             logging.warning(f"Índice {line_index} não encontrado no DataFrame.")
-
     except Exception as e:
         logging.error(f"Erro ao finalizar linha {line_index}: {e}")
 
-def insert_os(cell_value):
-    safe_click(COORDINATES_2["CLICK_TO_INSERT_OS"])
-    hotkey("ctrl", "a")
+async def insert_os(cell_value):
+    await safe_click(COORDINATES_2["CLICK_TO_INSERT_OS"])
+    await hotkey("ctrl", "a")
     pyautogui.write(str(cell_value))
-    safe_click(COORDINATES_2["CLICK_OUTSIDE_THE_INPUT"])
-    sleep(4.5)
+    await safe_click(COORDINATES_2["CLICK_OUTSIDE_THE_INPUT"])
+    await sleep(4.5)
 
-def add_doc():
-    safe_click(COORDINATES_2["CLICK_TO_ADD_DOC"])
-    safe_click(COORDINATES_2["CLICK_TO_ADD_FILE"])
+async def add_doc():
+    await safe_click(COORDINATES_2["CLICK_TO_ADD_DOC"])
+    await safe_click(COORDINATES_2["CLICK_TO_ADD_FILE"])
     pyperclip.copy(CONSTANTS["FILE_IN_PRISMA_NAME"])
-    safe_click(COORDINATES_2["INSERT_NAME_FILE"])
-    hotkey("ctrl", "v")
-    safe_click(COORDINATES_2["CLICK_INPUT"])
-    sleep(.5)
-    safe_click(COORDINATES_2["CLICK_IN_FILE"])
+    await safe_click(COORDINATES_2["INSERT_NAME_FILE"])
+    await hotkey("ctrl", "v")
+    await safe_click(COORDINATES_2["CLICK_INPUT"])
+    await sleep(1)
+    await safe_click(COORDINATES_2["CLICK_IN_FILE"])
     pyautogui.press("enter")
-    safe_click(COORDINATES_2["CLICK_IN_OK"])
-    sleep(1)
+    await sleep(.5)
+    await safe_click(COORDINATES_2["CLICK_IN_OK"])
+    await sleep(1)
 
-def fill_data():
-    safe_click(COORDINATES_2["CLICK_OUTSIDE_THE_INPUT"])
-    sleep(0.5)
-    safe_click(COORDINATES_2["CLICK_PROCEDURE_OS"])
-    sleep(1)
-    safe_click(COORDINATES_2["CLICK_INPUT_RADIO_HEADER"])
-    sleep(2.5)
-    safe_click(COORDINATES_2["CLICK_ON_LABOR"])
-    safe_click(COORDINATES_2["CLICK_ADD_LINE"])
-
-    sleep(1)
+async def fill_data():
+    await safe_click(COORDINATES_2["CLICK_OUTSIDE_THE_INPUT"])
+    await sleep(0.5)
+    await safe_click(COORDINATES_2["CLICK_PROCEDURE_OS"])
+    await sleep(.5)
+    await safe_click(COORDINATES_2["CLICK_INPUT_RADIO_HEADER"])
+    await sleep(2)
+    await safe_click(COORDINATES_2["CLICK_ON_LABOR"])
+    await safe_click(COORDINATES_2["CLICK_ADD_LINE"])
+    await sleep(1)
+    
     pyautogui.write("EQS")
-    sleep(1)
-    keyboard_pressed("tab")
-    keyboard_pressed("tab")
-    sleep(1.5)
+    await sleep(1)
+    await keyboard_pressed("tab")
+    await keyboard_pressed("tab")
+    await sleep(1.5)
     pyperclip.copy(CONSTANTS["INITIAL_DATE"])
-    hotkey("ctrl", "v")
-    sleep(1)
-    keyboard_pressed("tab")
-    sleep(1)
+    await hotkey("ctrl", "v")
+    await sleep(1)
+    await keyboard_pressed("tab")
+    await sleep(1)
     pyperclip.copy(CONSTANTS["FINAL_DATE"])
-    hotkey("ctrl", "v")
-    sleep(1)
-    keyboard_pressed("tab")
-    sleep(1.5)
+    await hotkey("ctrl", "v")
+    await sleep(1)
+    await keyboard_pressed("tab")
+    await sleep(1)
     pyautogui.write(CONSTANTS["HN"])
-    sleep(1)
-    safe_click(COORDINATES_2["CLICK_OUTSIDE_THE_INPUT"])
-    sleep(0.5)
+    await sleep(1)
+    await safe_click(COORDINATES_2["CLICK_OUTSIDE_THE_INPUT"])
+    await sleep(0.5)
 
-def end_service():
-    safe_click(COORDINATES_2["CLICK_SAVE"])
-    sleep(4)
-    safe_click(COORDINATES_2["CLICK_OUTSIDE_THE_INPUT"])
-    sleep(4.5)
-    safe_click(COORDINATES_2["SEARCH_OS_STATE"])
-    sleep(0.5)
-    safe_click(COORDINATES_2["CLICK_OS_CONCLUDE"])
-    sleep(1.5)
-    safe_click(COORDINATES_2["CLICK_SAVE"])
-    sleep(1)
-    safe_click(COORDINATES_2["CLICK_END_SERVICE"])
-    sleep(4)
+async def end_service():
+    await safe_click(COORDINATES_2["CLICK_SAVE"])
+    await sleep(4.5)
+    await safe_click(COORDINATES_2["CLICK_OUTSIDE_THE_INPUT"])
+    await sleep(4.5)
+    await safe_click(COORDINATES_2["SEARCH_OS_STATE"])
+    await sleep(0.5)
+    await safe_click(COORDINATES_2["CLICK_OS_CONCLUDE"])
+    await sleep(1.5)
+    await safe_click(COORDINATES_2["CLICK_SAVE"])
+    await sleep(1)
+    await safe_click(COORDINATES_2["CLICK_END_SERVICE"])
+    await sleep(4)
 
-def process_lines(df):
+async def process_lines(df):
     df["Status"] = df["Status"].astype(str)
 
     for index, row in df.iterrows():
-        
+        if SharedState.stop_execution:
+            logging.info("Execução interrompida pelo usuário.")
+            break
 
         cell_value = row.iloc[0]
         status_value = row["Status"]
 
-        logging.info(
-            f"Processando linha {index + 2}: {cell_value} | Status: {status_value}"
-        )
+        logging.info(f"Processando linha {index + 2}: {cell_value} | Status: {status_value}")
 
         try:
             if status_value != "Finalizada":
-
-                
-
-                insert_os(cell_value)
-                add_doc()
-                fill_data()
-                end_service()
-                finalize_line(df, index)
-                
+                await insert_os(cell_value)
+                await add_doc()
+                await fill_data()
+                await end_service()
+                await finalize_line(df, index)
             else:
                 logging.info(f"Linha {index + 2} já está finalizada. Pulando...")
-
         except Exception as e:
             logging.error(f"Erro ao processar linha {index + 2}: {e}")
             print(f"Erro ao processar linha {index + 2}: {e}")
-
 
 async def start_bot():
     try: 
@@ -228,7 +213,7 @@ async def start_bot():
 
         logging.info("Arquivo Excel carregado com sucesso.")
 
-        process_lines(df)
+        await process_lines(df)
         logging.info("Automação concluída com sucesso.")
     except Exception as e:
         logging.error(f"Erro crítico: {e}")
