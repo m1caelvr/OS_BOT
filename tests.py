@@ -1,6 +1,6 @@
 import pandas as pd
 
-sheet = pd.read_excel("PREVENTIVAS.xlsx")
+# sheet = pd.read_excel("PREVENTIVAS.xlsx")
 
 # line = 108
 
@@ -9,9 +9,17 @@ sheet = pd.read_excel("PREVENTIVAS.xlsx")
 
 # print(f"Valor: {valor1} em {valor2}")
 
-sheet.loc[:32, "Status"] = "Finalizada"
+# sheet.loc[:32, "Status"] = "Finalizada"
 
-sheet.to_excel("PREVENTIVAS.xlsx", index=False)
-print("Planilha atualizada com sucesso.")
+# sheet.to_excel("PREVENTIVAS.xlsx", index=False)
+# print("Planilha atualizada com sucesso.")
 
 # page.window.always_on_top = True
+
+
+file = "PREVENTIVAS.xlsx"
+df = pd.read_excel(file)
+
+for_finalize = df[df["Status"] != "Finalizada"]
+
+print(len(for_finalize))

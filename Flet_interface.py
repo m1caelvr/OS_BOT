@@ -3,6 +3,7 @@ import flet as ft
 import logging
 import tracemalloc
 
+import pandas as pd
 from screeninfo import get_monitors
 from Class.shared_state import SharedState
 
@@ -19,6 +20,7 @@ class ScriptController:
         self.stop_button = None
         self.is_running = False
         self.os_count_label = None
+        self.os_count_restant = None
 
     async def run_script(self):
         try:
@@ -43,6 +45,7 @@ class ScriptController:
         if not self.is_running:
             SharedState.stop_execution = False
             SharedState.made_consecutively = 0
+            SharedState.os_restants = self.lines_for_finalize()
             self.update_os_count()
             self.is_running = True
             self.start_button.disabled = True
@@ -77,22 +80,32 @@ class ScriptController:
 
     async def increment_made_consecutively(self):
         SharedState.made_consecutively += 1
+        SharedState.os_restants -= 1
         self.update_os_count()
 
     def update_os_count(self):
         self.os_count_label.value = (
             f"Quantidade feita consecutiva: {SharedState.made_consecutively}"
         )
+        self.os_count_restant.value = f"Serviços restantes {SharedState.os_restants}"
         self.page.update()
-        print(f"Quantidade feita consecutiva: {SharedState.made_consecutively}")
 
     async def reset_ui(self):
         self.is_running = False
         self.start_button.disabled = False
         self.stop_button.disabled = True
         SharedState.made_consecutively = 0
+        SharedState.os_restants = self.lines_for_finalize()
         self.update_os_count()
         self.page.update()
+
+    def lines_for_finalize(self):
+        file = "PREVENTIVAS.xlsx"
+        df = pd.read_excel(file)
+
+        for_finalize = df[df["Status"] != "Finalizada"]
+
+        return len(for_finalize)
 
 
 def main(page: ft.Page):
@@ -127,10 +140,18 @@ def main(page: ft.Page):
     )
 
     controller.stop_button.disabled = True
+    for_finalize = controller.lines_for_finalize()
 
     controller.os_count_label = ft.Text("Quantidade feita consecutiva: 0")
+    controller.os_count_restant = ft.Text(f"Serviços restantes {for_finalize}")
 
-    page.add(controller.start_button, controller.stop_button, controller.os_count_label)
+    page.add(
+        controller.start_button,
+        controller.stop_button,
+        controller.os_count_label,
+        controller.os_count_restant,
+    )
+
     page.update()
 
     page.on_close = lambda _: tracemalloc.stop()
