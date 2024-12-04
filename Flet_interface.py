@@ -22,11 +22,12 @@ class ScriptController:
         self.is_running = False
         self.os_count_label = None
         self.os_count_restant = None
+        self.df = pd.read_excel(SOURCE_FILE)
 
     async def run_script(self):
         try:
             logging.info("Iniciando o script de automação...")
-            await start_bot(self.increment_made_consecutively)
+            await start_bot(self.increment_made_consecutively, self.df)
         except asyncio.CancelledError:
             logging.info("Script foi interrompido.")
             print("Script foi interrompido.")
@@ -101,7 +102,7 @@ class ScriptController:
         self.page.update()
 
     def lines_for_finalize(self):
-        df = pd.read_excel(SOURCE_FILE)
+        df = self.df
 
         if "Status" not in df.columns:
             df["Status"] = ""
