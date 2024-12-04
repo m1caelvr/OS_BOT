@@ -105,8 +105,8 @@ def main(page: ft.Page):
     screen_width = monitor.width
     screen_height = monitor.height
 
-    page.window.left = screen_width / 3
-    page.window.top = screen_height / 2
+    page.window.left = screen_width / 2 - window_width / 2
+    page.window.top = screen_height / 2 + window_height / 2
 
     page.title = "OS_BOT"
     page.horizontal_alignment = "center"
