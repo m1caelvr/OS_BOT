@@ -8,6 +8,7 @@ from screeninfo import get_monitors
 from Class.shared_state import SharedState
 
 from src.Bot import start_bot
+from src.CONSTANTS.CONSTANTS_VALUE import SOURCE_FILE
 
 tracemalloc.start()
 
@@ -100,8 +101,12 @@ class ScriptController:
         self.page.update()
 
     def lines_for_finalize(self):
-        file = "PREVENTIVAS.xlsx"
-        df = pd.read_excel(file)
+        df = pd.read_excel(SOURCE_FILE)
+
+        if "Status" not in df.columns:
+            df["Status"] = ""
+            df.to_excel(SOURCE_FILE, index=False)
+            print("Coluna 'Status' criada.")
 
         for_finalize = df[df["Status"] != "Finalizada"]
 
