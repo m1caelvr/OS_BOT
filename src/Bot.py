@@ -14,7 +14,7 @@ from src.CONSTANTS.CONSTANTS_VALUE import (
     COORDINATES_NOTEBOOK_ANTONIO,
 )
 
-COORDINATES = COORDINATES_NOTEBOOK_APRENDIZ
+COORDINATES = COORDINATES_NOTEBOOK_ANTONIO
 
 logging.basicConfig(
     level=logging.INFO,
@@ -25,6 +25,10 @@ logging.basicConfig(
 
 
 async def sleep(seconds):
+    if SharedState.stop_execution:
+        logging.info("Execução interrompida. Cancelando safe_click.")
+        return
+
     time.sleep(seconds)
 
 
@@ -38,10 +42,18 @@ async def safe_click(coords):
 
 
 async def keyboard_pressed(key):
+    if SharedState.stop_execution:
+        logging.info("Execução interrompida. Cancelando safe_click.")
+        return
+
     pdi.press(key)
 
 
 async def hotkey(*keys):
+    if SharedState.stop_execution:
+        logging.info("Execução interrompida. Cancelando safe_click.")
+        return
+
     for key in keys[:-1]:
         pdi.keyDown(key)
     pdi.press(keys[-1])
@@ -50,6 +62,10 @@ async def hotkey(*keys):
 
 
 async def finalize_line(df, line_index, increment, file_name="PREVENTIVAS.xlsx"):
+    if SharedState.stop_execution:
+        logging.info("Execução interrompida. Cancelando safe_click.")
+        return
+
     try:
         if line_index in df.index:
             df.at[line_index, "Status"] = "Finalizada"
@@ -63,6 +79,10 @@ async def finalize_line(df, line_index, increment, file_name="PREVENTIVAS.xlsx")
 
 
 async def insert_os(cell_value):
+    if SharedState.stop_execution:
+        logging.info("Execução interrompida. Cancelando safe_click.")
+        return
+
     await safe_click(COORDINATES["CLICK_TO_INSERT_OS"])
     await hotkey("ctrl", "a")
     pyautogui.write(str(cell_value))
@@ -71,6 +91,10 @@ async def insert_os(cell_value):
 
 
 async def add_doc():
+    if SharedState.stop_execution:
+        logging.info("Execução interrompida. Cancelando safe_click.")
+        return
+
     await safe_click(COORDINATES["CLICK_TO_ADD_DOC"])
     await safe_click(COORDINATES["CLICK_TO_ADD_FILE"])
     pyperclip.copy(CONSTANTS["FILE_IN_PRISMA_NAME"])
@@ -87,6 +111,10 @@ async def add_doc():
 
 
 async def fill_data():
+    if SharedState.stop_execution:
+        logging.info("Execução interrompida. Cancelando safe_click.")
+        return
+
     await safe_click(COORDINATES["CLICK_OUTSIDE_THE_INPUT"])
     await sleep(0.5)
     await safe_click(COORDINATES["CLICK_PROCEDURE_OS"])
@@ -119,6 +147,10 @@ async def fill_data():
 
 
 async def end_service():
+    if SharedState.stop_execution:
+        logging.info("Execução interrompida. Cancelando safe_click.")
+        return
+
     await safe_click(COORDINATES["CLICK_SAVE"])
     await sleep(4.5)
     await safe_click(COORDINATES["CLICK_OUTSIDE_THE_INPUT"])
@@ -162,13 +194,9 @@ async def process_lines(df, increment):
             print(f"Erro ao processar linha {index + 2}: {e}")
 
 
-async def start_bot(increment):
+async def start_bot(increment, df):
     try:
         logging.info("Iniciando o script de automação...")
-        df = pd.read_excel(SOURCE_FILE)
-
-        if "Status" not in df.columns:
-            raise ValueError("A coluna 'Status' não foi encontrada no arquivo Excel.")
 
         logging.info("Arquivo Excel carregado com sucesso.")
 
