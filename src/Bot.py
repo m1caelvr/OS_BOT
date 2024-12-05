@@ -199,7 +199,7 @@ async def start_bot(increment, df):
     try:
         logging.info("Iniciando o script de automação...")
 
-        # await process_lines(df, increment)
+        await process_lines(df, increment)
         logging.info("Automação concluída com sucesso.")
     except Exception as e:
         logging.error(f"Erro crítico: {e}")
