@@ -90,7 +90,7 @@ class ScriptController:
             f"Quantidade feita consecutiva: {SharedState.made_consecutively}"
         )
         self.os_count_restant.value = (
-            f"Serviços restantes {SharedState.os_restants} de {len(self.df)}"
+            f"Preventivas restantes {SharedState.os_restants} de {len(self.df)}"
         )
         self.page.update()
 
@@ -133,6 +133,8 @@ def main(page: ft.Page):
     page.horizontal_alignment = "center"
     page.window.always_on_top = True
 
+    # page.theme_mode = ft.ThemeMode.LIGHT
+
     controller = ScriptController(page)
 
     async def toggle_script_wrapper(e):
@@ -151,9 +153,9 @@ def main(page: ft.Page):
     for_finalize = controller.lines_for_finalize()
     total_lines = len(controller.df)
 
-    controller.os_count_label = ft.Text("Quantidade feita consecutiva: 0")
+    controller.os_count_label = ft.Text("Quantidade feita desde o start: 0")
     controller.os_count_restant = ft.Text(
-        f"Serviços restantes {for_finalize} de {total_lines}"
+        f"Preventivas restantes {for_finalize} de {total_lines}"
     )
 
     page.add(

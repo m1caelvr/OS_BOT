@@ -61,7 +61,7 @@ async def hotkey(*keys):
         pdi.keyUp(key)
 
 
-async def finalize_line(df, line_index, increment, file_name="PREVENTIVAS.xlsx"):
+async def finalize_line(df, line_index, increment, file_name=SOURCE_FILE):
     if SharedState.stop_execution:
         logging.info("Execução interrompida. Cancelando safe_click.")
         return
@@ -199,9 +199,7 @@ async def start_bot(increment, df):
     try:
         logging.info("Iniciando o script de automação...")
 
-        logging.info("Arquivo Excel carregado com sucesso.")
-
-        await process_lines(df, increment)
+        # await process_lines(df, increment)
         logging.info("Automação concluída com sucesso.")
     except Exception as e:
         logging.error(f"Erro crítico: {e}")

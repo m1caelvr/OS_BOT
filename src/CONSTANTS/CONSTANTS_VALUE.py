@@ -1,4 +1,20 @@
-SOURCE_FILE = "./PREVENTIVAS.xlsx"
+import os
+
+PLANILHA_DIR = "./PLANILHA_OS"
+
+
+def find_excel_file(directory):
+    for file in os.listdir(directory):
+        if file.endswith((".xlsx", ".xls")):
+            return os.path.join(directory, file)
+    raise FileNotFoundError(
+        "Nenhuma planilha foi encontrada no diretório especificado."
+    )
+
+
+SOURCE_FILE = find_excel_file(PLANILHA_DIR)
+print(f"Planilha encontrada: {SOURCE_FILE}")
+
 
 CONSTANTS = {
     "FILE_IN_PRISMA_NAME": "RELATÓRIO",
