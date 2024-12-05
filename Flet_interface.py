@@ -89,7 +89,9 @@ class ScriptController:
         self.os_count_label.value = (
             f"Quantidade feita consecutiva: {SharedState.made_consecutively}"
         )
-        self.os_count_restant.value = f"Serviços restantes {SharedState.os_restants}"
+        self.os_count_restant.value = (
+            f"Serviços restantes {SharedState.os_restants} de {len(self.df)}"
+        )
         self.page.update()
 
     async def reset_ui(self):
@@ -124,8 +126,8 @@ def main(page: ft.Page):
     screen_width = monitor.width
     screen_height = monitor.height
 
-    page.window.left = screen_width / 2 - window_width / 2
-    page.window.top = screen_height / 2 + window_height / 2
+    page.window.left = screen_width / 4
+    page.window.top = screen_height - (window_height + 30)
 
     page.title = "OS_BOT"
     page.horizontal_alignment = "center"
@@ -147,9 +149,12 @@ def main(page: ft.Page):
 
     controller.stop_button.disabled = True
     for_finalize = controller.lines_for_finalize()
+    total_lines = len(controller.df)
 
     controller.os_count_label = ft.Text("Quantidade feita consecutiva: 0")
-    controller.os_count_restant = ft.Text(f"Serviços restantes {for_finalize}")
+    controller.os_count_restant = ft.Text(
+        f"Serviços restantes {for_finalize} de {total_lines}"
+    )
 
     page.add(
         controller.start_button,

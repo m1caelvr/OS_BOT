@@ -87,7 +87,7 @@ async def insert_os(cell_value):
     await hotkey("ctrl", "a")
     pyautogui.write(str(cell_value))
     await safe_click(COORDINATES["CLICK_OUTSIDE_THE_INPUT"])
-    await sleep(4.5)
+    await sleep(6)
 
 
 async def add_doc():
@@ -101,13 +101,14 @@ async def add_doc():
     await safe_click(COORDINATES["INSERT_NAME_FILE"])
     await hotkey("ctrl", "v")
     await safe_click(COORDINATES["CLICK_INPUT"])
-    await sleep(1)
+    await sleep(2)
     await safe_click(COORDINATES["CLICK_IN_FILE"])
+    pyautogui.press("down")
     pyautogui.press("enter")
     await sleep(1)
     await safe_click(COORDINATES["CLICK_IN_OK"])
     await safe_click(COORDINATES["CLICK_IN_OK"])
-    await sleep(1.5)
+    await sleep(4)
 
 
 async def fill_data():
@@ -120,7 +121,7 @@ async def fill_data():
     await safe_click(COORDINATES["CLICK_PROCEDURE_OS"])
     await sleep(0.5)
     await safe_click(COORDINATES["CLICK_INPUT_RADIO_HEADER"])
-    await sleep(2)
+    await sleep(3.5)
     await safe_click(COORDINATES["CLICK_ON_LABOR"])
     await safe_click(COORDINATES["CLICK_ADD_LINE"])
     await sleep(1)
