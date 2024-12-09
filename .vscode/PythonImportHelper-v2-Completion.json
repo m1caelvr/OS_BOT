@@ -1,0 +1,347 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "asyncio",
+        "description": "asyncio",
+        "detail": "asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "pyautogui",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pyautogui",
+        "description": "pyautogui",
+        "detail": "pyautogui",
+        "documentation": {}
+    },
+    {
+        "label": "pyperclip",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pyperclip",
+        "description": "pyperclip",
+        "detail": "pyperclip",
+        "documentation": {}
+    },
+    {
+        "label": "pydirectinput",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pydirectinput",
+        "description": "pydirectinput",
+        "detail": "pydirectinput",
+        "documentation": {}
+    },
+    {
+        "label": "SharedState",
+        "importPath": "src.shared.shared_state",
+        "description": "src.shared.shared_state",
+        "isExtraImport": true,
+        "detail": "src.shared.shared_state",
+        "documentation": {}
+    },
+    {
+        "label": "SharedState",
+        "importPath": "src.shared.shared_state",
+        "description": "src.shared.shared_state",
+        "isExtraImport": true,
+        "detail": "src.shared.shared_state",
+        "documentation": {}
+    },
+    {
+        "label": "SharedState",
+        "importPath": "src.shared.shared_state",
+        "description": "src.shared.shared_state",
+        "isExtraImport": true,
+        "detail": "src.shared.shared_state",
+        "documentation": {}
+    },
+    {
+        "label": "CONSTANTS",
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "isExtraImport": true,
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "SOURCE_FILE",
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "isExtraImport": true,
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "COORDINATES_NOTEBOOK_APRENDIZ",
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "isExtraImport": true,
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "SOURCE_FILE",
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "isExtraImport": true,
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "insert_os",
+        "importPath": "src.bot.automation",
+        "description": "src.bot.automation",
+        "isExtraImport": true,
+        "detail": "src.bot.automation",
+        "documentation": {}
+    },
+    {
+        "label": "add_doc",
+        "importPath": "src.bot.automation",
+        "description": "src.bot.automation",
+        "isExtraImport": true,
+        "detail": "src.bot.automation",
+        "documentation": {}
+    },
+    {
+        "label": "fill_data",
+        "importPath": "src.bot.automation",
+        "description": "src.bot.automation",
+        "isExtraImport": true,
+        "detail": "src.bot.automation",
+        "documentation": {}
+    },
+    {
+        "label": "end_service",
+        "importPath": "src.bot.automation",
+        "description": "src.bot.automation",
+        "isExtraImport": true,
+        "detail": "src.bot.automation",
+        "documentation": {}
+    },
+    {
+        "label": "finalize_line",
+        "importPath": "src.bot.automation",
+        "description": "src.bot.automation",
+        "isExtraImport": true,
+        "detail": "src.bot.automation",
+        "documentation": {}
+    },
+    {
+        "label": "tracemalloc",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "tracemalloc",
+        "description": "tracemalloc",
+        "detail": "tracemalloc",
+        "documentation": {}
+    },
+    {
+        "label": "flet",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "flet",
+        "description": "flet",
+        "detail": "flet",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "get_monitors",
+        "importPath": "screeninfo",
+        "description": "screeninfo",
+        "isExtraImport": true,
+        "detail": "screeninfo",
+        "documentation": {}
+    },
+    {
+        "label": "start_bot",
+        "importPath": "src.bot.bot_runner",
+        "description": "src.bot.bot_runner",
+        "isExtraImport": true,
+        "detail": "src.bot.bot_runner",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "importPath": "src.gui.flet_ui",
+        "description": "src.gui.flet_ui",
+        "isExtraImport": true,
+        "detail": "src.gui.flet_ui",
+        "documentation": {}
+    },
+    {
+        "label": "CONSTANTS",
+        "kind": 6,
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "peekOfCode": "class CONSTANTS:\n    FILE_IN_PRISMA_NAME = \"RELATÓRIO\"\n    INITIAL_DATE = \"26/11/2024 08:00\"\n    FINAL_DATE = \"26/11/2024 09:00\"\n    HN = \"HN\"\nclass COORDINATES_NOTEBOOK_APRENDIZ:\n    CLICK_TO_INSERT_OS = [452, 278]\n    CLICK_OUTSIDE_THE_INPUT = [316, 330]\n    CLICK_TO_ADD_DOC = [1755, 216]\n    CLICK_TO_ADD_FILE = [1677, 155]",
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "COORDINATES_NOTEBOOK_APRENDIZ",
+        "kind": 6,
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "peekOfCode": "class COORDINATES_NOTEBOOK_APRENDIZ:\n    CLICK_TO_INSERT_OS = [452, 278]\n    CLICK_OUTSIDE_THE_INPUT = [316, 330]\n    CLICK_TO_ADD_DOC = [1755, 216]\n    CLICK_TO_ADD_FILE = [1677, 155]\n    INSERT_NAME_FILE = [1647, 503]\n    CLICK_INPUT = [1723, 289]\n    CLICK_IN_FILE = [480, 178]\n    CLICK_IN_OK = [1718, 644]\n    CLICK_PROCEDURE_OS = [917, 176]",
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "COORDINATES_NOTEBOOK_ANTONIO",
+        "kind": 6,
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "peekOfCode": "class COORDINATES_NOTEBOOK_ANTONIO:\n    CLICK_TO_INSERT_OS = [273, 224]\n    CLICK_OUTSIDE_THE_INPUT = [214, 268]\n    CLICK_TO_ADD_DOC = [1220, 171]\n    CLICK_TO_ADD_FILE = [1096, 128]\n    INSERT_NAME_FILE = [1144, 402]\n    CLICK_INPUT = [1200, 232]\n    CLICK_IN_FILE = [686, 251]\n    CLICK_IN_OK = [1200, 515]\n    CLICK_PROCEDURE_OS = [699, 145]",
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "find_excel_file",
+        "kind": 2,
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "peekOfCode": "def find_excel_file(directory):\n    for file in os.listdir(directory):\n        if file.endswith((\".xlsx\", \".xls\")):\n            return os.path.join(directory, file)\n    raise FileNotFoundError(\n        \"Nenhuma planilha foi encontrada no diretório especificado.\"\n    )\nSOURCE_FILE = find_excel_file(PLANILHA_DIR)\nlogging.info(f\"Planilha encontrada: {SOURCE_FILE}\")\nclass CONSTANTS:",
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "PLANILHA_DIR",
+        "kind": 5,
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "peekOfCode": "PLANILHA_DIR = \"./data/PLANILHA_OS\"\ndef find_excel_file(directory):\n    for file in os.listdir(directory):\n        if file.endswith((\".xlsx\", \".xls\")):\n            return os.path.join(directory, file)\n    raise FileNotFoundError(\n        \"Nenhuma planilha foi encontrada no diretório especificado.\"\n    )\nSOURCE_FILE = find_excel_file(PLANILHA_DIR)\nlogging.info(f\"Planilha encontrada: {SOURCE_FILE}\")",
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "SOURCE_FILE",
+        "kind": 5,
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "peekOfCode": "SOURCE_FILE = find_excel_file(PLANILHA_DIR)\nlogging.info(f\"Planilha encontrada: {SOURCE_FILE}\")\nclass CONSTANTS:\n    FILE_IN_PRISMA_NAME = \"RELATÓRIO\"\n    INITIAL_DATE = \"26/11/2024 08:00\"\n    FINAL_DATE = \"26/11/2024 09:00\"\n    HN = \"HN\"\nclass COORDINATES_NOTEBOOK_APRENDIZ:\n    CLICK_TO_INSERT_OS = [452, 278]\n    CLICK_OUTSIDE_THE_INPUT = [316, 330]",
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "ScriptController",
+        "kind": 6,
+        "importPath": "src.gui.flet_ui",
+        "description": "src.gui.flet_ui",
+        "peekOfCode": "class ScriptController:\n    def __init__(self, page):\n        self.page = page\n        self.script_task = None\n        self.start_button = None\n        self.stop_button = None\n        self.is_running = False\n        self.os_count_label = None\n        self.os_count_restant = None\n        self.df = pd.read_excel(SOURCE_FILE)",
+        "detail": "src.gui.flet_ui",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "src.gui.flet_ui",
+        "description": "src.gui.flet_ui",
+        "peekOfCode": "def main(page: ft.Page):\n    window_width = 300\n    window_height = 200\n    page.window.width = window_width\n    page.window.height = window_height\n    monitor = get_monitors()[0]\n    screen_width = monitor.width\n    screen_height = monitor.height\n    page.window.left = screen_width / 4\n    page.window.top = screen_height - (window_height + 30)",
+        "detail": "src.gui.flet_ui",
+        "documentation": {}
+    },
+    {
+        "label": "log_dir",
+        "kind": 5,
+        "importPath": "src.gui.flet_ui",
+        "description": "src.gui.flet_ui",
+        "peekOfCode": "log_dir = \"logs\"\nif not os.path.exists(log_dir):\n    os.makedirs(log_dir)\nlog_file = os.path.join(log_dir, \"automacao.log\")\nlogging.basicConfig(\n    level=logging.INFO,\n    format=\"%(asctime)s - %(levelname)s - %(message)s\",\n    handlers=[logging.FileHandler(log_file), logging.StreamHandler()],\n)\ntracemalloc.start()",
+        "detail": "src.gui.flet_ui",
+        "documentation": {}
+    },
+    {
+        "label": "log_file",
+        "kind": 5,
+        "importPath": "src.gui.flet_ui",
+        "description": "src.gui.flet_ui",
+        "peekOfCode": "log_file = os.path.join(log_dir, \"automacao.log\")\nlogging.basicConfig(\n    level=logging.INFO,\n    format=\"%(asctime)s - %(levelname)s - %(message)s\",\n    handlers=[logging.FileHandler(log_file), logging.StreamHandler()],\n)\ntracemalloc.start()\nclass ScriptController:\n    def __init__(self, page):\n        self.page = page",
+        "detail": "src.gui.flet_ui",
+        "documentation": {}
+    },
+    {
+        "label": "SharedState",
+        "kind": 6,
+        "importPath": "src.shared.shared_state",
+        "description": "src.shared.shared_state",
+        "peekOfCode": "class SharedState:\n    stop_execution = False\n    made_consecutively = 0\n    os_restants = 0",
+        "detail": "src.shared.shared_state",
+        "documentation": {}
+    },
+    {
+        "label": "load_excel_file",
+        "kind": 2,
+        "importPath": "src.shared.utils",
+        "description": "src.shared.utils",
+        "peekOfCode": "def load_excel_file(file_path):\n    try:\n        return pd.read_excel(file_path)\n    except FileNotFoundError:\n        raise Exception(f\"Arquivo não encontrado: {file_path}\")",
+        "detail": "src.shared.utils",
+        "documentation": {}
+    },
+    {
+        "label": "file",
+        "kind": 5,
+        "importPath": "tests",
+        "description": "tests",
+        "peekOfCode": "file = \"PREVENTIVAS.xlsx\"\ndf = pd.read_excel(file)\nfor_finalize = df[df[\"Status\"] != \"Finalizada\"]\nprint(len(for_finalize))",
+        "detail": "tests",
+        "documentation": {}
+    },
+    {
+        "label": "df",
+        "kind": 5,
+        "importPath": "tests",
+        "description": "tests",
+        "peekOfCode": "df = pd.read_excel(file)\nfor_finalize = df[df[\"Status\"] != \"Finalizada\"]\nprint(len(for_finalize))",
+        "detail": "tests",
+        "documentation": {}
+    },
+    {
+        "label": "for_finalize",
+        "kind": 5,
+        "importPath": "tests",
+        "description": "tests",
+        "peekOfCode": "for_finalize = df[df[\"Status\"] != \"Finalizada\"]\nprint(len(for_finalize))",
+        "detail": "tests",
+        "documentation": {}
+    }
+]
