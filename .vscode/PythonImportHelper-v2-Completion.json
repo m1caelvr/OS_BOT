@@ -103,7 +103,7 @@
         "documentation": {}
     },
     {
-        "label": "COORDINATES_NOTEBOOK_APRENDIZ",
+        "label": "COORDINATES_NOTEBOOK_ANTONIO",
         "importPath": "src.bot.constants",
         "description": "src.bot.constants",
         "isExtraImport": true,

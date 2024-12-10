@@ -7,7 +7,7 @@ import pyperclip
 import pydirectinput as pdi
 from src.shared.shared_state import SharedState
 from src.bot.constants import CONSTANTS, SOURCE_FILE
-from src.bot.constants import COORDINATES_NOTEBOOK_APRENDIZ as COORDINATES
+from src.bot.constants import COORDINATES_NOTEBOOK_ANTONIO as COORDINATES
 
 
 async def sleep(seconds):
