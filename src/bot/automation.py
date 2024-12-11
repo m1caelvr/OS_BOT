@@ -67,7 +67,7 @@ async def add_doc():
     await safe_click(COORDINATES.INSERT_NAME_FILE)
     await hotkey("ctrl", "v")
     await safe_click(COORDINATES.CLICK_INPUT)
-    await sleep(2)
+    await sleep(3)
     await safe_click(COORDINATES.CLICK_IN_FILE)
     pyautogui.press("down")
     pyautogui.press("enter")
@@ -87,7 +87,7 @@ async def fill_data():
     await safe_click(COORDINATES.CLICK_PROCEDURE_OS)
     await sleep(0.5)
     await safe_click(COORDINATES.CLICK_INPUT_RADIO_HEADER)
-    await sleep(3.5)
+    await sleep(5)
     await safe_click(COORDINATES.CLICK_ON_LABOR)
     await safe_click(COORDINATES.CLICK_ADD_LINE)
     await sleep(1)
@@ -119,9 +119,9 @@ async def end_service():
         return
 
     await safe_click(COORDINATES.CLICK_SAVE)
-    await sleep(4.5)
+    await sleep(6.5)
     await safe_click(COORDINATES.CLICK_OUTSIDE_THE_INPUT)
-    await sleep(4.5)
+    await sleep(7)
     await safe_click(COORDINATES.SEARCH_OS_STATE)
     await sleep(0.5)
     await safe_click(COORDINATES.CLICK_OS_CONCLUDE)
@@ -129,7 +129,7 @@ async def end_service():
     await safe_click(COORDINATES.CLICK_SAVE)
     await sleep(1)
     await safe_click(COORDINATES.CLICK_END_SERVICE)
-    await sleep(4)
+    await sleep(5.5)
 
 
 async def finalize_line(df, line_index, increment, file_name=SOURCE_FILE):

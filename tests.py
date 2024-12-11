@@ -1,6 +1,7 @@
 import pandas as pd
+from src.bot.constants import SOURCE_FILE
 
-# sheet = pd.read_excel("PREVENTIVAS.xlsx")
+sheet = pd.read_excel(SOURCE_FILE)
 
 # line = 108
 
@@ -9,17 +10,17 @@ import pandas as pd
 
 # print(f"Valor: {valor1} em {valor2}")
 
-# sheet.loc[:32, "Status"] = "Finalizada"
+sheet.loc[:70, "Status"] = "Finalizada"
 
-# sheet.to_excel("PREVENTIVAS.xlsx", index=False)
-# print("Planilha atualizada com sucesso.")
+sheet.to_excel(SOURCE_FILE, index=False)
+print("Planilha atualizada com sucesso.")
 
 # page.window.always_on_top = True
 
 
-file = "PREVENTIVAS.xlsx"
-df = pd.read_excel(file)
+# file = "PREVENTIVAS.xlsx"
+# df = pd.read_excel(file)
 
-for_finalize = df[df["Status"] != "Finalizada"]
+# for_finalize = df[df["Status"] != "Finalizada"]
 
-print(len(for_finalize))
+# print(len(for_finalize))

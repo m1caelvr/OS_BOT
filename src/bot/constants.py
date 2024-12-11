@@ -1,5 +1,6 @@
 import logging
 import os
+from src.shared.config_manager import load_config
 
 PLANILHA_DIR = "./data/PLANILHA_OS"
 
@@ -16,12 +17,17 @@ def find_excel_file(directory):
 SOURCE_FILE = find_excel_file(PLANILHA_DIR)
 logging.info(f"Planilha encontrada: {SOURCE_FILE}")
 
+# 26/11/2024 08:00
+# 26/11/2024 09:00
+
 
 class CONSTANTS:
     FILE_IN_PRISMA_NAME = "RELATÓRIO"
-    INITIAL_DATE = "26/11/2024 08:00"
-    FINAL_DATE = "26/11/2024 09:00"
     HN = "HN"
+
+    config = load_config()
+    INITIAL_DATE = config.get("INITIAL_DATE")
+    FINAL_DATE = config.get("FINAL_DATE")
 
 
 class COORDINATES_NOTEBOOK_APRENDIZ:

@@ -111,6 +111,22 @@
         "documentation": {}
     },
     {
+        "label": "CONSTANTS",
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "isExtraImport": true,
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "SOURCE_FILE",
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "isExtraImport": true,
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
         "label": "SOURCE_FILE",
         "importPath": "src.bot.constants",
         "description": "src.bot.constants",
@@ -159,6 +175,30 @@
         "documentation": {}
     },
     {
+        "label": "load_config",
+        "importPath": "src.shared.config_manager",
+        "description": "src.shared.config_manager",
+        "isExtraImport": true,
+        "detail": "src.shared.config_manager",
+        "documentation": {}
+    },
+    {
+        "label": "load_config",
+        "importPath": "src.shared.config_manager",
+        "description": "src.shared.config_manager",
+        "isExtraImport": true,
+        "detail": "src.shared.config_manager",
+        "documentation": {}
+    },
+    {
+        "label": "save_config",
+        "importPath": "src.shared.config_manager",
+        "description": "src.shared.config_manager",
+        "isExtraImport": true,
+        "detail": "src.shared.config_manager",
+        "documentation": {}
+    },
+    {
         "label": "tracemalloc",
         "kind": 6,
         "isExtraImport": true,
@@ -194,11 +234,44 @@
         "documentation": {}
     },
     {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "start_bot",
         "importPath": "src.bot.bot_runner",
         "description": "src.bot.bot_runner",
         "isExtraImport": true,
         "detail": "src.bot.bot_runner",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
         "documentation": {}
     },
     {
@@ -214,7 +287,7 @@
         "kind": 6,
         "importPath": "src.bot.constants",
         "description": "src.bot.constants",
-        "peekOfCode": "class CONSTANTS:\n    FILE_IN_PRISMA_NAME = \"RELATÓRIO\"\n    INITIAL_DATE = \"26/11/2024 08:00\"\n    FINAL_DATE = \"26/11/2024 09:00\"\n    HN = \"HN\"\nclass COORDINATES_NOTEBOOK_APRENDIZ:\n    CLICK_TO_INSERT_OS = [452, 278]\n    CLICK_OUTSIDE_THE_INPUT = [316, 330]\n    CLICK_TO_ADD_DOC = [1755, 216]\n    CLICK_TO_ADD_FILE = [1677, 155]",
+        "peekOfCode": "class CONSTANTS:\n    FILE_IN_PRISMA_NAME = \"RELATÓRIO\"\n    HN = \"HN\"\n    config = load_config()\n    INITIAL_DATE = config.get(\"INITIAL_DATE\")\n    FINAL_DATE = config.get(\"FINAL_DATE\")\nclass COORDINATES_NOTEBOOK_APRENDIZ:\n    CLICK_TO_INSERT_OS = [452, 278]\n    CLICK_OUTSIDE_THE_INPUT = [316, 330]\n    CLICK_TO_ADD_DOC = [1755, 216]",
         "detail": "src.bot.constants",
         "documentation": {}
     },
@@ -241,7 +314,7 @@
         "kind": 2,
         "importPath": "src.bot.constants",
         "description": "src.bot.constants",
-        "peekOfCode": "def find_excel_file(directory):\n    for file in os.listdir(directory):\n        if file.endswith((\".xlsx\", \".xls\")):\n            return os.path.join(directory, file)\n    raise FileNotFoundError(\n        \"Nenhuma planilha foi encontrada no diretório especificado.\"\n    )\nSOURCE_FILE = find_excel_file(PLANILHA_DIR)\nlogging.info(f\"Planilha encontrada: {SOURCE_FILE}\")\nclass CONSTANTS:",
+        "peekOfCode": "def find_excel_file(directory):\n    for file in os.listdir(directory):\n        if file.endswith((\".xlsx\", \".xls\")):\n            return os.path.join(directory, file)\n    raise FileNotFoundError(\n        \"Nenhuma planilha foi encontrada no diretório especificado.\"\n    )\nSOURCE_FILE = find_excel_file(PLANILHA_DIR)\nlogging.info(f\"Planilha encontrada: {SOURCE_FILE}\")\n# 26/11/2024 08:00",
         "detail": "src.bot.constants",
         "documentation": {}
     },
@@ -259,7 +332,7 @@
         "kind": 5,
         "importPath": "src.bot.constants",
         "description": "src.bot.constants",
-        "peekOfCode": "SOURCE_FILE = find_excel_file(PLANILHA_DIR)\nlogging.info(f\"Planilha encontrada: {SOURCE_FILE}\")\nclass CONSTANTS:\n    FILE_IN_PRISMA_NAME = \"RELATÓRIO\"\n    INITIAL_DATE = \"26/11/2024 08:00\"\n    FINAL_DATE = \"26/11/2024 09:00\"\n    HN = \"HN\"\nclass COORDINATES_NOTEBOOK_APRENDIZ:\n    CLICK_TO_INSERT_OS = [452, 278]\n    CLICK_OUTSIDE_THE_INPUT = [316, 330]",
+        "peekOfCode": "SOURCE_FILE = find_excel_file(PLANILHA_DIR)\nlogging.info(f\"Planilha encontrada: {SOURCE_FILE}\")\n# 26/11/2024 08:00\n# 26/11/2024 09:00\nclass CONSTANTS:\n    FILE_IN_PRISMA_NAME = \"RELATÓRIO\"\n    HN = \"HN\"\n    config = load_config()\n    INITIAL_DATE = config.get(\"INITIAL_DATE\")\n    FINAL_DATE = config.get(\"FINAL_DATE\")",
         "detail": "src.bot.constants",
         "documentation": {}
     },
@@ -273,11 +346,20 @@
         "documentation": {}
     },
     {
+        "label": "validate_datetime",
+        "kind": 2,
+        "importPath": "src.gui.flet_ui",
+        "description": "src.gui.flet_ui",
+        "peekOfCode": "def validate_datetime(value):\n    \"\"\"Valida o formato de data e hora.\"\"\"\n    try:\n        datetime.strptime(value, \"%d/%m/%Y %H:%M\")\n        return True\n    except ValueError:\n        return False\ndef main(page: ft.Page):\n    window_width = 400\n    window_height = 320",
+        "detail": "src.gui.flet_ui",
+        "documentation": {}
+    },
+    {
         "label": "main",
         "kind": 2,
         "importPath": "src.gui.flet_ui",
         "description": "src.gui.flet_ui",
-        "peekOfCode": "def main(page: ft.Page):\n    window_width = 300\n    window_height = 200\n    page.window.width = window_width\n    page.window.height = window_height\n    monitor = get_monitors()[0]\n    screen_width = monitor.width\n    screen_height = monitor.height\n    page.window.left = screen_width / 4\n    page.window.top = screen_height - (window_height + 30)",
+        "peekOfCode": "def main(page: ft.Page):\n    window_width = 400\n    window_height = 320\n    page.window.width = window_width\n    page.window.height = window_height\n    monitor = get_monitors()[0]\n    screen_width = monitor.width\n    screen_height = monitor.height\n    page.window.left = window_width / 3\n    page.window.top = screen_height - (window_height + 30)",
         "detail": "src.gui.flet_ui",
         "documentation": {}
     },
@@ -300,6 +382,60 @@
         "documentation": {}
     },
     {
+        "label": "get_default_config",
+        "kind": 2,
+        "importPath": "src.shared.config_manager",
+        "description": "src.shared.config_manager",
+        "peekOfCode": "def get_default_config():\n    now = datetime.now()\n    return {\n        \"INITIAL_DATE\": (now - timedelta(hours=1)).strftime(\"%d/%m/%Y %H:%M\"),\n        \"FINAL_DATE\": now.strftime(\"%d/%m/%Y %H:%M\"),\n    }\ndef load_config():\n    config_dir = os.path.dirname(CONFIG_FILE)\n    if not os.path.exists(config_dir):\n        os.makedirs(config_dir)",
+        "detail": "src.shared.config_manager",
+        "documentation": {}
+    },
+    {
+        "label": "load_config",
+        "kind": 2,
+        "importPath": "src.shared.config_manager",
+        "description": "src.shared.config_manager",
+        "peekOfCode": "def load_config():\n    config_dir = os.path.dirname(CONFIG_FILE)\n    if not os.path.exists(config_dir):\n        os.makedirs(config_dir)\n    if not os.path.exists(CONFIG_FILE):\n        default_config = get_default_config()\n        save_config(default_config)\n        return default_config\n    with open(CONFIG_FILE, \"r\") as file:\n        return json.load(file)",
+        "detail": "src.shared.config_manager",
+        "documentation": {}
+    },
+    {
+        "label": "save_config",
+        "kind": 2,
+        "importPath": "src.shared.config_manager",
+        "description": "src.shared.config_manager",
+        "peekOfCode": "def save_config(config, CONSTANTS):\n    with open(CONFIG_FILE, \"w\") as file:\n        json.dump(config, file, indent=4)\n    CONSTANTS.INITIAL_DATE = config[\"INITIAL_DATE\"]\n    CONSTANTS.FINAL_DATE = config[\"FINAL_DATE\"]\ndef get_config_value(key):\n    config = load_config()\n    return config.get(key, None)\ndef set_config_value(key, value):\n    config = load_config()",
+        "detail": "src.shared.config_manager",
+        "documentation": {}
+    },
+    {
+        "label": "get_config_value",
+        "kind": 2,
+        "importPath": "src.shared.config_manager",
+        "description": "src.shared.config_manager",
+        "peekOfCode": "def get_config_value(key):\n    config = load_config()\n    return config.get(key, None)\ndef set_config_value(key, value):\n    config = load_config()\n    config[key] = value\n    save_config(config)",
+        "detail": "src.shared.config_manager",
+        "documentation": {}
+    },
+    {
+        "label": "set_config_value",
+        "kind": 2,
+        "importPath": "src.shared.config_manager",
+        "description": "src.shared.config_manager",
+        "peekOfCode": "def set_config_value(key, value):\n    config = load_config()\n    config[key] = value\n    save_config(config)",
+        "detail": "src.shared.config_manager",
+        "documentation": {}
+    },
+    {
+        "label": "CONFIG_FILE",
+        "kind": 5,
+        "importPath": "src.shared.config_manager",
+        "description": "src.shared.config_manager",
+        "peekOfCode": "CONFIG_FILE = os.path.join(\n    os.path.dirname(os.path.abspath(__file__)), \"..\", \"..\", \"data\", \"config.json\"\n)\ndef get_default_config():\n    now = datetime.now()\n    return {\n        \"INITIAL_DATE\": (now - timedelta(hours=1)).strftime(\"%d/%m/%Y %H:%M\"),\n        \"FINAL_DATE\": now.strftime(\"%d/%m/%Y %H:%M\"),\n    }\ndef load_config():",
+        "detail": "src.shared.config_manager",
+        "documentation": {}
+    },
+    {
         "label": "SharedState",
         "kind": 6,
         "importPath": "src.shared.shared_state",
@@ -318,29 +454,11 @@
         "documentation": {}
     },
     {
-        "label": "file",
+        "label": "sheet",
         "kind": 5,
         "importPath": "tests",
         "description": "tests",
-        "peekOfCode": "file = \"PREVENTIVAS.xlsx\"\ndf = pd.read_excel(file)\nfor_finalize = df[df[\"Status\"] != \"Finalizada\"]\nprint(len(for_finalize))",
-        "detail": "tests",
-        "documentation": {}
-    },
-    {
-        "label": "df",
-        "kind": 5,
-        "importPath": "tests",
-        "description": "tests",
-        "peekOfCode": "df = pd.read_excel(file)\nfor_finalize = df[df[\"Status\"] != \"Finalizada\"]\nprint(len(for_finalize))",
-        "detail": "tests",
-        "documentation": {}
-    },
-    {
-        "label": "for_finalize",
-        "kind": 5,
-        "importPath": "tests",
-        "description": "tests",
-        "peekOfCode": "for_finalize = df[df[\"Status\"] != \"Finalizada\"]\nprint(len(for_finalize))",
+        "peekOfCode": "sheet = pd.read_excel(SOURCE_FILE)\n# line = 108\n# valor1 = sheet.at[line - 2, \"N_OS\"]\n# valor2 = sheet.at[line - 2, \"Status\"]\n# print(f\"Valor: {valor1} em {valor2}\")\nsheet.loc[:70, \"Status\"] = \"Finalizada\"\nsheet.to_excel(SOURCE_FILE, index=False)\nprint(\"Planilha atualizada com sucesso.\")\n# page.window.always_on_top = True\n# file = \"PREVENTIVAS.xlsx\"",
         "detail": "tests",
         "documentation": {}
     }
