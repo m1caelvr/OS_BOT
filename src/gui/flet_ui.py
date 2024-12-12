@@ -134,7 +134,6 @@ class ScriptController:
 
 
 def validate_datetime(value):
-    """Valida o formato de data e hora."""
     try:
         datetime.strptime(value, "%d/%m/%Y %H:%M")
         return True
@@ -292,7 +291,7 @@ def main(page: ft.Page):
     def handle_upload_relatorio(e: ft.FilePickerResultEvent):
         if e.files:
             file = e.files[0]
-            new_path = os.path.join("data", "Relatório.xlsx")
+            new_path = os.path.join("data", "PLANILHA_OS", "Relatório.xlsx")
             try:
                 with open(file.path, "rb") as src, open(new_path, "wb") as dest:
                     dest.write(src.read())

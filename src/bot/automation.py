@@ -43,6 +43,15 @@ async def hotkey(*keys):
     for key in keys[:-1]:
         pdi.keyUp(key)
 
+def past_text(text):
+    if SharedState.stop_execution:
+        logging.info("Execução interrompida. Cancelando safe_click.")
+        return
+
+    pyperclip.copy(text)
+
+    pdi.hotkey("ctrl", "v")
+
 
 async def insert_os(cell_value):
     if SharedState.stop_execution:
@@ -63,9 +72,8 @@ async def add_doc():
 
     await safe_click(COORDINATES.CLICK_TO_ADD_DOC)
     await safe_click(COORDINATES.CLICK_TO_ADD_FILE)
-    pyperclip.copy(CONSTANTS.FILE_IN_PRISMA_NAME)
     await safe_click(COORDINATES.INSERT_NAME_FILE)
-    await hotkey("ctrl", "v")
+    await past_text(CONSTANTS.FILE_IN_PRISMA_NAME)
     await safe_click(COORDINATES.CLICK_INPUT)
     await sleep(3)
     await safe_click(COORDINATES.CLICK_IN_FILE)
@@ -97,13 +105,11 @@ async def fill_data():
     await keyboard_pressed("tab")
     await keyboard_pressed("tab")
     await sleep(1.5)
-    pyperclip.copy(CONSTANTS.INITIAL_DATE)
-    await hotkey("ctrl", "v")
+    await past_text(CONSTANTS.INITIAL_DATE)
     await sleep(1)
     await keyboard_pressed("tab")
     await sleep(1)
-    pyperclip.copy(CONSTANTS.FINAL_DATE)
-    await hotkey("ctrl", "v")
+    await past_text(CONSTANTS.FINAL_DATE)
     await sleep(1)
     await keyboard_pressed("tab")
     await sleep(1)
