@@ -283,6 +283,15 @@
         "documentation": {}
     },
     {
+        "label": "past_text",
+        "kind": 2,
+        "importPath": "src.bot.automation",
+        "description": "src.bot.automation",
+        "peekOfCode": "def past_text(text):\n    if SharedState.stop_execution:\n        logging.info(\"Execução interrompida. Cancelando safe_click.\")\n        return\n    pyperclip.copy(text)\n    pdi.hotkey(\"ctrl\", \"v\")\nasync def insert_os(cell_value):\n    if SharedState.stop_execution:\n        logging.info(\"Execução interrompida. Cancelando safe_click.\")\n        return",
+        "detail": "src.bot.automation",
+        "documentation": {}
+    },
+    {
         "label": "CONSTANTS",
         "kind": 6,
         "importPath": "src.bot.constants",
@@ -350,7 +359,7 @@
         "kind": 2,
         "importPath": "src.gui.flet_ui",
         "description": "src.gui.flet_ui",
-        "peekOfCode": "def validate_datetime(value):\n    \"\"\"Valida o formato de data e hora.\"\"\"\n    try:\n        datetime.strptime(value, \"%d/%m/%Y %H:%M\")\n        return True\n    except ValueError:\n        return False\ndef main(page: ft.Page):\n    window_width = 400\n    window_height = 320",
+        "peekOfCode": "def validate_datetime(value):\n    try:\n        datetime.strptime(value, \"%d/%m/%Y %H:%M\")\n        return True\n    except ValueError:\n        return False\ndef main(page: ft.Page):\n    window_width = 400\n    window_height = 320\n    page.window.width = window_width",
         "detail": "src.gui.flet_ui",
         "documentation": {}
     },
