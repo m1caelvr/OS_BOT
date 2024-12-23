@@ -152,7 +152,7 @@ def main(page: ft.Page):
     screen_height = monitor.height
 
     page.window.left = window_width / 3
-    page.window.top = screen_height - (window_height + 30)
+    page.window.top = screen_height - window_height * 1.7
 
     page.title = "OS_BOT"
     page.horizontal_alignment = "center"
@@ -291,8 +291,17 @@ def main(page: ft.Page):
     def handle_upload_relatorio(e: ft.FilePickerResultEvent):
         if e.files:
             file = e.files[0]
-            new_path = os.path.join("data", "PLANILHA_OS", "Relatório.xlsx")
+            dir_path = os.path.join("data", "RECORD")
+            new_path = os.path.join(dir_path, "Relatório.pdf")
+
+            if not os.path.exists(dir_path):
+                os.makedirs(dir_path)
+
             try:
+                for existing_file in os.listdir(dir_path):
+                    if existing_file.endswith(".pdf"):
+                        os.remove(os.path.join(dir_path, existing_file))
+
                 with open(file.path, "rb") as src, open(new_path, "wb") as dest:
                     dest.write(src.read())
 
@@ -305,6 +314,7 @@ def main(page: ft.Page):
                 )
             page.snack_bar.open = True
             page.update()
+
 
     upload_planilha_button = ft.FilePicker(on_result=handle_upload_planilha)
     upload_relatorio_button = ft.FilePicker(on_result=handle_upload_relatorio)

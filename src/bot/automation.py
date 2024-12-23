@@ -7,7 +7,7 @@ import pyperclip
 import pydirectinput as pdi
 from src.shared.shared_state import SharedState
 from src.bot.constants import CONSTANTS, SOURCE_FILE
-from src.bot.constants import COORDINATES_NOTEBOOK_ANTONIO as COORDINATES
+from src.bot.constants import COORDINATES_NOTEBOOK_APRENDIZ as COORDINATES
 
 
 async def sleep(seconds):
@@ -43,14 +43,14 @@ async def hotkey(*keys):
     for key in keys[:-1]:
         pdi.keyUp(key)
 
-def past_text(text):
+async def past_text(text):
     if SharedState.stop_execution:
         logging.info("Execução interrompida. Cancelando safe_click.")
         return
 
     pyperclip.copy(text)
 
-    pdi.hotkey("ctrl", "v")
+    await hotkey("ctrl", "v")
 
 
 async def insert_os(cell_value):
@@ -129,7 +129,7 @@ async def end_service():
     await safe_click(COORDINATES.CLICK_OUTSIDE_THE_INPUT)
     await sleep(7)
     await safe_click(COORDINATES.SEARCH_OS_STATE)
-    await sleep(0.5)
+    await sleep(1)
     await safe_click(COORDINATES.CLICK_OS_CONCLUDE)
     await sleep(1.5)
     await safe_click(COORDINATES.CLICK_SAVE)
