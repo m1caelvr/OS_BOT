@@ -135,6 +135,8 @@ async def end_service():
     await safe_click(COORDINATES.CLICK_SAVE)
     await sleep(1)
     await safe_click(COORDINATES.CLICK_END_SERVICE)
+    await safe_click(COORDINATES.CLICK_END_SERVICE)
+    await safe_click(COORDINATES.CLICK_END_SERVICE)
     await sleep(5.5)
 
 
