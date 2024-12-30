@@ -43,6 +43,7 @@ async def hotkey(*keys):
     for key in keys[:-1]:
         pdi.keyUp(key)
 
+
 async def past_text(text):
     if SharedState.stop_execution:
         logging.info("Execução interrompida. Cancelando safe_click.")

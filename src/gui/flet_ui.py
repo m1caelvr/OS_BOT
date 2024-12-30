@@ -250,7 +250,7 @@ def main(page: ft.Page):
     for_finalize = controller.lines_for_finalize()
     total_lines = len(controller.df)
 
-    controller.os_count_label = ft.Text("Quantidade feita desde o start: 0")
+    controller.os_count_label = ft.Text("Quantidade feita consecutiva: 0")
     controller.os_count_restant = ft.Text(
         f"Preventivas restantes {for_finalize} de {total_lines}"
     )
@@ -258,9 +258,18 @@ def main(page: ft.Page):
     def handle_upload_planilha(e: ft.FilePickerResultEvent):
         if e.files:
             file = e.files[0]
-            new_path = os.path.join("data", "PLANILHA_OS", "PREVENTIVAS.xlsx")
+            directory = os.path.join("data", "PLANILHA_OS")
+            new_path = os.path.join(directory, "PREVENTIVAS.xlsx")
 
             try:
+                if os.path.exists(directory):
+                    for existing_file in os.listdir(directory):
+                        existing_file_path = os.path.join(directory, existing_file)
+                        if os.path.isfile(existing_file_path):
+                            os.remove(existing_file_path)
+                else:
+                    os.makedirs(directory)
+
                 with open(file.path, "rb") as src, open(new_path, "wb") as dest:
                     dest.write(src.read())
 
@@ -275,18 +284,38 @@ def main(page: ft.Page):
                     return
 
                 df = df[["N_OS"]]
-
                 df.to_excel(new_path, index=False)
+
+                print(f"Planilha: {len(controller.df)}")
+
+                controller.df = df
+                print(f"Planilha atualizada com sucesso. {len(controller.df)}")
+
+                if "Status" not in df.columns:
+                    df["Status"] = ""
+                    df.to_excel(SOURCE_FILE, index=False)
+                    logging.info("Coluna 'Status' criada.")
+
+                for_finalize = len(df[df["Status"] != "Finalizada"])
+                total_lines = len(df)
+
+                controller.os_count_restant.value = (
+                    f"Preventivas restantes {for_finalize} de {total_lines}"
+                )
+                controller.os_count_restant.update()
 
                 page.snack_bar = ft.SnackBar(
                     ft.Text("Arquivo de planilha atualizado com sucesso!")
                 )
+                page.snack_bar.open = True
+                page.update()
+
             except Exception as ex:
                 page.snack_bar = ft.SnackBar(
                     ft.Text(f"Erro ao processar a planilha: {ex}")
                 )
-            page.snack_bar.open = True
-            page.update()
+                page.snack_bar.open = True
+                page.update()
 
     def handle_upload_relatorio(e: ft.FilePickerResultEvent):
         if e.files:
@@ -314,7 +343,6 @@ def main(page: ft.Page):
                 )
             page.snack_bar.open = True
             page.update()
-
 
     upload_planilha_button = ft.FilePicker(on_result=handle_upload_planilha)
     upload_relatorio_button = ft.FilePicker(on_result=handle_upload_relatorio)
