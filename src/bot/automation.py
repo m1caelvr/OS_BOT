@@ -66,10 +66,18 @@ async def insert_os(cell_value):
     await sleep(6)
 
 
-async def add_doc():
+async def add_doc(site_number=1):
     if SharedState.stop_execution:
         logging.info("Execução interrompida. Cancelando safe_click.")
         return
+    
+    async def down_press(site_number):
+        for _ in range(site_number):
+            if site_number == 1:
+                pyautogui.press("down")
+                pyautogui.press("up")
+            else:
+                pyautogui.press("down")
 
     await safe_click(COORDINATES.CLICK_TO_ADD_DOC)
     await safe_click(COORDINATES.CLICK_TO_ADD_FILE)
@@ -78,12 +86,13 @@ async def add_doc():
     await safe_click(COORDINATES.CLICK_INPUT)
     await sleep(3)
     await safe_click(COORDINATES.CLICK_IN_FILE)
-    pyautogui.press("down")
+    await down_press(site_number)
     pyautogui.press("enter")
     await sleep(1)
     await safe_click(COORDINATES.CLICK_IN_OK)
     await safe_click(COORDINATES.CLICK_IN_OK)
     await sleep(2)
+
 
 
 async def fill_data():

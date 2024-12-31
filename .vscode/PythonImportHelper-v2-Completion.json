@@ -103,7 +103,15 @@
         "documentation": {}
     },
     {
-        "label": "COORDINATES_NOTEBOOK_ANTONIO",
+        "label": "COORDINATES_NOTEBOOK_APRENDIZ",
+        "importPath": "src.bot.constants",
+        "description": "src.bot.constants",
+        "isExtraImport": true,
+        "detail": "src.bot.constants",
+        "documentation": {}
+    },
+    {
+        "label": "CONSTANTS",
         "importPath": "src.bot.constants",
         "description": "src.bot.constants",
         "isExtraImport": true,
@@ -208,6 +216,24 @@
         "documentation": {}
     },
     {
+        "label": "pdfplumber",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pdfplumber",
+        "description": "pdfplumber",
+        "detail": "pdfplumber",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
         "label": "flet",
         "kind": 6,
         "isExtraImport": true,
@@ -283,15 +309,6 @@
         "documentation": {}
     },
     {
-        "label": "past_text",
-        "kind": 2,
-        "importPath": "src.bot.automation",
-        "description": "src.bot.automation",
-        "peekOfCode": "def past_text(text):\n    if SharedState.stop_execution:\n        logging.info(\"Execução interrompida. Cancelando safe_click.\")\n        return\n    pyperclip.copy(text)\n    pdi.hotkey(\"ctrl\", \"v\")\nasync def insert_os(cell_value):\n    if SharedState.stop_execution:\n        logging.info(\"Execução interrompida. Cancelando safe_click.\")\n        return",
-        "detail": "src.bot.automation",
-        "documentation": {}
-    },
-    {
         "label": "CONSTANTS",
         "kind": 6,
         "importPath": "src.bot.constants",
@@ -323,7 +340,7 @@
         "kind": 2,
         "importPath": "src.bot.constants",
         "description": "src.bot.constants",
-        "peekOfCode": "def find_excel_file(directory):\n    for file in os.listdir(directory):\n        if file.endswith((\".xlsx\", \".xls\")):\n            return os.path.join(directory, file)\n    raise FileNotFoundError(\n        \"Nenhuma planilha foi encontrada no diretório especificado.\"\n    )\nSOURCE_FILE = find_excel_file(PLANILHA_DIR)\nlogging.info(f\"Planilha encontrada: {SOURCE_FILE}\")\n# 26/11/2024 08:00",
+        "peekOfCode": "def find_excel_file(directory):\n    for file in os.listdir(directory):\n        if file.endswith((\".xlsx\", \".xls\")):\n            return os.path.join(directory, file)\n    raise FileNotFoundError(\n        \"Nenhuma planilha foi encontrada no diretório especificado.\"\n    )\nSOURCE_FILE = find_excel_file(PLANILHA_DIR)\nlogging.info(f\"Planilha encontrada: {SOURCE_FILE}\")\nclass CONSTANTS:",
         "detail": "src.bot.constants",
         "documentation": {}
     },
@@ -341,7 +358,7 @@
         "kind": 5,
         "importPath": "src.bot.constants",
         "description": "src.bot.constants",
-        "peekOfCode": "SOURCE_FILE = find_excel_file(PLANILHA_DIR)\nlogging.info(f\"Planilha encontrada: {SOURCE_FILE}\")\n# 26/11/2024 08:00\n# 26/11/2024 09:00\nclass CONSTANTS:\n    FILE_IN_PRISMA_NAME = \"RELATÓRIO\"\n    HN = \"HN\"\n    config = load_config()\n    INITIAL_DATE = config.get(\"INITIAL_DATE\")\n    FINAL_DATE = config.get(\"FINAL_DATE\")",
+        "peekOfCode": "SOURCE_FILE = find_excel_file(PLANILHA_DIR)\nlogging.info(f\"Planilha encontrada: {SOURCE_FILE}\")\nclass CONSTANTS:\n    FILE_IN_PRISMA_NAME = \"RELATÓRIO\"\n    HN = \"HN\"\n    config = load_config()\n    INITIAL_DATE = config.get(\"INITIAL_DATE\")\n    FINAL_DATE = config.get(\"FINAL_DATE\")\nclass COORDINATES_NOTEBOOK_APRENDIZ:\n    CLICK_TO_INSERT_OS = [452, 278]",
         "detail": "src.bot.constants",
         "documentation": {}
     },
@@ -359,7 +376,7 @@
         "kind": 2,
         "importPath": "src.gui.flet_ui",
         "description": "src.gui.flet_ui",
-        "peekOfCode": "def validate_datetime(value):\n    try:\n        datetime.strptime(value, \"%d/%m/%Y %H:%M\")\n        return True\n    except ValueError:\n        return False\ndef main(page: ft.Page):\n    window_width = 400\n    window_height = 320\n    page.window.width = window_width",
+        "peekOfCode": "def validate_datetime(value):\n    try:\n        datetime.strptime(value, \"%d/%m/%Y %H:%M\")\n        return True\n    except ValueError:\n        return False\ndef main(page: ft.Page):\n    window_width = 400\n    window_height = 330\n    page.window.width = window_width",
         "detail": "src.gui.flet_ui",
         "documentation": {}
     },
@@ -368,7 +385,7 @@
         "kind": 2,
         "importPath": "src.gui.flet_ui",
         "description": "src.gui.flet_ui",
-        "peekOfCode": "def main(page: ft.Page):\n    window_width = 400\n    window_height = 320\n    page.window.width = window_width\n    page.window.height = window_height\n    monitor = get_monitors()[0]\n    screen_width = monitor.width\n    screen_height = monitor.height\n    page.window.left = window_width / 3\n    page.window.top = screen_height - (window_height + 30)",
+        "peekOfCode": "def main(page: ft.Page):\n    window_width = 400\n    window_height = 330\n    page.window.width = window_width\n    page.window.height = window_height\n    monitor = get_monitors()[0]\n    screen_width = monitor.width\n    screen_height = monitor.height\n    page.window.left = window_width / 3\n    page.window.top = screen_height - window_height * 1.7",
         "detail": "src.gui.flet_ui",
         "documentation": {}
     },
