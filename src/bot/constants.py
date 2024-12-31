@@ -17,9 +17,6 @@ def find_excel_file(directory):
 SOURCE_FILE = find_excel_file(PLANILHA_DIR)
 logging.info(f"Planilha encontrada: {SOURCE_FILE}")
 
-# 26/11/2024 08:00
-# 26/11/2024 09:00
-
 
 class CONSTANTS:
     FILE_IN_PRISMA_NAME = "RELATÓRIO"
@@ -48,7 +45,7 @@ class COORDINATES_NOTEBOOK_APRENDIZ:
     CLICK_SAVE = [1533, 152]
     SEARCH_OS_STATE = [573, 481]
     CLICK_OS_CONCLUDE = [495, 398]
-    CLICK_END_SERVICE = [1067, 671]
+    CLICK_END_SERVICE = [1067, 685]
 
 
 # class COORDINATES_NOTEBOOK_APRENDIZ:

@@ -83,7 +83,7 @@ async def add_doc():
     await sleep(1)
     await safe_click(COORDINATES.CLICK_IN_OK)
     await safe_click(COORDINATES.CLICK_IN_OK)
-    await sleep(4)
+    await sleep(2)
 
 
 async def fill_data():

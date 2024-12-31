@@ -2,6 +2,8 @@ import os
 import asyncio
 import logging
 import tracemalloc
+import pdfplumber
+import re
 
 import flet as ft
 import pandas as pd
@@ -143,7 +145,7 @@ def validate_datetime(value):
 
 def main(page: ft.Page):
     window_width = 400
-    window_height = 320
+    window_height = 330
     page.window.width = window_width
     page.window.height = window_height
 
@@ -334,15 +336,53 @@ def main(page: ft.Page):
                 with open(file.path, "rb") as src, open(new_path, "wb") as dest:
                     dest.write(src.read())
 
-                page.snack_bar = ft.SnackBar(
-                    ft.Text("Arquivo de relatório atualizado com sucesso!")
-                )
+                def extract_date_from_pdf(pdf_path, page_number=0):
+                    try:
+                        with pdfplumber.open(pdf_path) as pdf:
+                            page = pdf.pages[page_number]
+                            text = page.extract_text()
+
+                            if not text:
+                                return "Texto não encontrado na página especificada."
+
+                            match = re.search(
+                                r"FIM:\s*(?:\n|.*?)(\d{2}/\d{2}/\d{4} \d{2}:\d{2})", text, re.DOTALL
+                            )
+
+                            if match:
+                                return match.group(1)
+                            else:
+                                return "Formato esperado de 'FIM' não encontrado."
+
+                    except Exception as e:
+                        return f"Erro ao processar o PDF: {e}"
+
+                data_hora = extract_date_from_pdf(new_path)
+
+                if isinstance(data_hora, str) and not data_hora.startswith("Erro"):
+                    data = data_hora.split(" ")[0]
+
+                    initial_date_value = f"{data} 08:00"
+                    final_date_value = f"{data} 09:00"
+
+                    initial_date_input.value = initial_date_value
+                    final_date_input.value = final_date_value
+
+                    page.snack_bar = ft.SnackBar(
+                        ft.Text("Arquivo de relatório e data atualizados com sucesso!")
+                    )
+                else:
+                    page.snack_bar = ft.SnackBar(
+                        ft.Text(f"Erro ao processar o relatório: {data_hora}")
+                    )
+
             except Exception as ex:
                 page.snack_bar = ft.SnackBar(
                     ft.Text(f"Erro ao salvar o relatório: {ex}")
                 )
             page.snack_bar.open = True
             page.update()
+
 
     upload_planilha_button = ft.FilePicker(on_result=handle_upload_planilha)
     upload_relatorio_button = ft.FilePicker(on_result=handle_upload_relatorio)
@@ -370,6 +410,36 @@ def main(page: ft.Page):
         spacing=10,
     )
 
+    def reload_data(e):
+        try:
+            controller.df = pd.read_excel(SOURCE_FILE)
+
+            if "Status" not in controller.df.columns:
+                controller.df["Status"] = ""
+                controller.df.to_excel(SOURCE_FILE, index=False)
+                logging.info("Coluna 'Status' criada.")
+
+            for_finalize = controller.lines_for_finalize()
+            total_lines = len(controller.df)
+
+            controller.os_count_label.value = (
+                f"Quantidade feita consecutiva: {SharedState.made_consecutively}"
+            )
+            controller.os_count_restant.value = (
+                f"Preventivas restantes {for_finalize} de {total_lines}"
+            )
+
+            page.snack_bar = ft.SnackBar(ft.Text("Dados recarregados com sucesso!"))
+            page.snack_bar.open = True
+            page.update()
+        except Exception as ex:
+            logging.error(f"Erro ao recarregar os dados: {ex}")
+            page.snack_bar = ft.SnackBar(ft.Text(f"Erro ao recarregar os dados: {ex}"))
+            page.snack_bar.open = True
+            page.update()
+
+    reload_button = ft.ElevatedButton("Recarregar Dados", on_click=reload_data)
+
     page.add(
         insert_date,
         save_button,
@@ -377,6 +447,7 @@ def main(page: ft.Page):
         button_controller,
         controller.os_count_label,
         controller.os_count_restant,
+        reload_button,
     )
 
     page.update()
