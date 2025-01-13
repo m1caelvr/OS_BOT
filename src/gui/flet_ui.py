@@ -159,6 +159,7 @@ def main(page: ft.Page):
     page.title = "OS_BOT"
     page.horizontal_alignment = "center"
     page.window.always_on_top = True
+    page.scroll = ft.ScrollMode.AUTO
 
     # page.theme_mode = ft.ThemeMode.LIGHT
 
@@ -168,6 +169,55 @@ def main(page: ft.Page):
     async def toggle_script_wrapper(e):
         await asyncio.sleep(0.1)
         await controller.toggle_script(e, page)
+
+    def reload_data(e):
+        try:
+            controller.df = pd.read_excel(SOURCE_FILE)
+
+            if "Status" not in controller.df.columns:
+                controller.df["Status"] = ""
+                controller.df.to_excel(SOURCE_FILE, index=False)
+                logging.info("Coluna 'Status' criada.")
+
+            for_finalize = controller.lines_for_finalize()
+            total_lines = len(controller.df)
+
+            controller.os_count_label.value = (
+                f"Quantidade feita consecutiva: {SharedState.made_consecutively}"
+            )
+            controller.os_count_restant.value = (
+                f"Preventivas restantes {for_finalize} de {total_lines}"
+            )
+
+            page.snack_bar = ft.SnackBar(ft.Text("Dados recarregados com sucesso!"))
+            page.snack_bar.open = True
+            page.update()
+        except Exception as ex:
+            logging.error(f"Erro ao recarregar os dados: {ex}")
+            page.snack_bar = ft.SnackBar(ft.Text(f"Erro ao recarregar os dados: {ex}"))
+            page.snack_bar.open = True
+            page.update()
+
+    def pin_window(e):
+        page.window.always_on_top = False if page.window.always_on_top else True
+        page.update()
+
+    top_buttons = ft.Row(
+        [
+            ft.Container(
+                content=ft.IconButton(
+                    icon=ft.icons.RESTART_ALT_ROUNDED,
+                    icon_size=35,
+                    on_click=reload_data,
+                ),
+            ),
+            ft.Container(
+                content=ft.Switch(value=True, on_change=pin_window),
+            ),
+        ],
+        alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+        spacing=10,
+    )
 
     initial_date_input = ft.TextField(
         label="Data Inicial",
@@ -182,19 +232,22 @@ def main(page: ft.Page):
         width=300,
     )
 
-    insert_date = ft.Row(
-        [
-            ft.Container(
-                content=initial_date_input,
-                expand=True,
-            ),
-            ft.Container(
-                content=final_date_input,
-                expand=True,
-            ),
-        ],
-        alignment=ft.MainAxisAlignment.CENTER,
-        spacing=10,
+    insert_date = ft.Container(
+        content=ft.Row(
+            [
+                ft.Container(
+                    content=initial_date_input,
+                    expand=True,
+                ),
+                ft.Container(
+                    content=final_date_input,
+                    expand=True,
+                ),
+            ],
+            alignment=ft.MainAxisAlignment.CENTER,
+            spacing=10,
+        ),
+        margin=ft.margin.only(top=10),
     )
 
     def save_config_handler(e):
@@ -346,7 +399,9 @@ def main(page: ft.Page):
                                 return "Texto não encontrado na página especificada."
 
                             match = re.search(
-                                r"FIM:\s*(?:\n|.*?)(\d{2}/\d{2}/\d{4} \d{2}:\d{2})", text, re.DOTALL
+                                r"FIM:\s*(?:\n|.*?)(\d{2}/\d{2}/\d{4} \d{2}:\d{2})",
+                                text,
+                                re.DOTALL,
                             )
 
                             if match:
@@ -380,9 +435,10 @@ def main(page: ft.Page):
                 page.snack_bar = ft.SnackBar(
                     ft.Text(f"Erro ao salvar o relatório: {ex}")
                 )
+
+            save_config_handler(None)
             page.snack_bar.open = True
             page.update()
-
 
     upload_planilha_button = ft.FilePicker(on_result=handle_upload_planilha)
     upload_relatorio_button = ft.FilePicker(on_result=handle_upload_relatorio)
@@ -410,14 +466,43 @@ def main(page: ft.Page):
         spacing=10,
     )
 
-    def reload_data(e):
-        try:
-            controller.df = pd.read_excel(SOURCE_FILE)
+    nos_input = ft.TextField(
+        label="Inserir N_OS",
+        multiline=True,
+        hint_text="Digite um N_OS por linha",
+        width=250,
+        expand=True,
+        text_size=11,
+    )
 
-            if "Status" not in controller.df.columns:
-                controller.df["Status"] = ""
-                controller.df.to_excel(SOURCE_FILE, index=False)
-                logging.info("Coluna 'Status' criada.")
+    def process_manual_nos(e):
+        nos_list = nos_input.value.strip().splitlines()
+        nos_list = [nos.strip() for nos in nos_list if nos.strip()]
+        if not nos_list:
+            page.snack_bar = ft.SnackBar(ft.Text("Nenhum N_OS foi inserido!"))
+            page.snack_bar.open = True
+            page.update()
+            return
+
+        try:
+            existing_nos = set(controller.df["N_OS"].astype(str).tolist())
+
+            new_nos = [nos for nos in nos_list if nos not in existing_nos]
+
+            if not new_nos:
+                page.snack_bar = ft.SnackBar(
+                    ft.Text("Todos os N_OS já existem na planilha!")
+                )
+                page.snack_bar.open = True
+                page.update()
+                return
+
+            controller.df = controller.df[controller.df["Status"] != "finalizado"]
+            controller.df.to_excel(SOURCE_FILE, index=False)
+
+            new_rows = pd.DataFrame({"N_OS": new_nos, "Status": [""] * len(new_nos)})
+            controller.df = pd.concat([controller.df, new_rows], ignore_index=True)
+            controller.df.to_excel(SOURCE_FILE, index=False)
 
             for_finalize = controller.lines_for_finalize()
             total_lines = len(controller.df)
@@ -428,26 +513,38 @@ def main(page: ft.Page):
             controller.os_count_restant.value = (
                 f"Preventivas restantes {for_finalize} de {total_lines}"
             )
+            controller.os_count_label.update()
+            controller.os_count_restant.update()
 
-            page.snack_bar = ft.SnackBar(ft.Text("Dados recarregados com sucesso!"))
+            page.snack_bar = ft.SnackBar(
+                ft.Text(f"{len(new_nos)} N_OS inseridos manualmente com sucesso!")
+            )
             page.snack_bar.open = True
             page.update()
+
         except Exception as ex:
-            logging.error(f"Erro ao recarregar os dados: {ex}")
-            page.snack_bar = ft.SnackBar(ft.Text(f"Erro ao recarregar os dados: {ex}"))
+            page.snack_bar = ft.SnackBar(ft.Text(f"Erro ao processar os N_OS: {ex}"))
             page.snack_bar.open = True
             page.update()
 
-    reload_button = ft.ElevatedButton("Recarregar Dados", on_click=reload_data)
+    manual_nos_button = ft.ElevatedButton("Adicionar N_OS", on_click=process_manual_nos)
 
     page.add(
+        top_buttons,
+        controller.os_count_label,
+        controller.os_count_restant,
         insert_date,
         save_button,
         upload_buttons,
         button_controller,
-        controller.os_count_label,
-        controller.os_count_restant,
-        reload_button,
+        ft.Row(
+            [
+                ft.Container(content=nos_input, expand=True),
+                ft.Container(content=manual_nos_button, expand=False),
+            ],
+            alignment=ft.MainAxisAlignment.CENTER,
+            spacing=10,
+        ),
     )
 
     page.update()
