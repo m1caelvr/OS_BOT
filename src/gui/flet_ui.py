@@ -202,23 +202,6 @@ def main(page: ft.Page):
         page.window.always_on_top = False if page.window.always_on_top else True
         page.update()
 
-    top_buttons = ft.Row(
-        [
-            ft.Container(
-                content=ft.IconButton(
-                    icon=ft.icons.RESTART_ALT_ROUNDED,
-                    icon_size=35,
-                    on_click=reload_data,
-                ),
-            ),
-            ft.Container(
-                content=ft.Switch(value=True, on_change=pin_window),
-            ),
-        ],
-        alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-        spacing=10,
-    )
-
     initial_date_input = ft.TextField(
         label="Data Inicial",
         value=config.get("INITIAL_DATE", ""),
@@ -308,6 +291,29 @@ def main(page: ft.Page):
     controller.os_count_label = ft.Text("Quantidade feita consecutiva: 0")
     controller.os_count_restant = ft.Text(
         f"Preventivas restantes {for_finalize} de {total_lines}"
+    )
+
+    top_buttons = ft.Row(
+        [
+            ft.Container(
+                content=ft.IconButton(
+                    icon=ft.icons.RESTART_ALT_ROUNDED,
+                    icon_size=35,
+                    on_click=reload_data,
+                ),
+            ),
+            ft.Column(
+                [
+                    controller.os_count_label,
+                    controller.os_count_restant,
+                ]
+            ),
+            ft.Container(
+                content=ft.Switch(value=True, on_change=pin_window),
+            ),
+        ],
+        alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+        spacing=10,
     )
 
     def handle_upload_planilha(e: ft.FilePickerResultEvent):
@@ -470,7 +476,7 @@ def main(page: ft.Page):
         label="Inserir N_OS",
         multiline=True,
         hint_text="Digite um N_OS por linha",
-        width=250,
+        # width=window_width * 0.4,
         expand=True,
         text_size=11,
     )
@@ -485,41 +491,33 @@ def main(page: ft.Page):
             return
 
         try:
-            existing_nos = set(controller.df["N_OS"].astype(str).tolist())
+            new_rows = pd.DataFrame(
+                {
+                    "N_OS": nos_list,
+                    "Denominacao_Site": ["" for _ in nos_list],
+                    "Status": ["" for _ in nos_list],
+                }
+            )
 
-            new_nos = [nos for nos in nos_list if nos not in existing_nos]
+            controller.df = new_rows
 
-            if not new_nos:
-                page.snack_bar = ft.SnackBar(
-                    ft.Text("Todos os N_OS já existem na planilha!")
-                )
-                page.snack_bar.open = True
-                page.update()
-                return
-
-            controller.df = controller.df[controller.df["Status"] != "finalizado"]
             controller.df.to_excel(SOURCE_FILE, index=False)
 
-            new_rows = pd.DataFrame({"N_OS": new_nos, "Status": [""] * len(new_nos)})
-            controller.df = pd.concat([controller.df, new_rows], ignore_index=True)
-            controller.df.to_excel(SOURCE_FILE, index=False)
-
-            for_finalize = controller.lines_for_finalize()
             total_lines = len(controller.df)
-
             controller.os_count_label.value = (
                 f"Quantidade feita consecutiva: {SharedState.made_consecutively}"
             )
             controller.os_count_restant.value = (
-                f"Preventivas restantes {for_finalize} de {total_lines}"
+                f"Preventivas restantes {total_lines} de {total_lines}"
             )
             controller.os_count_label.update()
             controller.os_count_restant.update()
 
             page.snack_bar = ft.SnackBar(
-                ft.Text(f"{len(new_nos)} N_OS inseridos manualmente com sucesso!")
+                ft.Text(f"{len(nos_list)} N_OS inseridos manualmente com sucesso!")
             )
             page.snack_bar.open = True
+            reload_data(None)
             page.update()
 
         except Exception as ex:
@@ -531,18 +529,15 @@ def main(page: ft.Page):
 
     page.add(
         top_buttons,
-        controller.os_count_label,
-        controller.os_count_restant,
         insert_date,
         save_button,
         upload_buttons,
         button_controller,
-        ft.Row(
+        ft.Column(
             [
-                ft.Container(content=nos_input, expand=True),
-                ft.Container(content=manual_nos_button, expand=False),
+                manual_nos_button,
+                nos_input,
             ],
-            alignment=ft.MainAxisAlignment.CENTER,
             spacing=10,
         ),
     )
