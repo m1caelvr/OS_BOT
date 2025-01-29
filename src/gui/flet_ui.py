@@ -170,6 +170,36 @@ def main(page: ft.Page):
         await asyncio.sleep(0.1)
         await controller.toggle_script(e, page)
 
+    def skip_os(e):
+        try:
+            for index, row in controller.df.iterrows():
+                if row.get("Status") != "Finalizada":
+                    controller.df.at[index, "Status"] = "Finalizada"
+                    controller.df.to_excel(SOURCE_FILE, index=False)
+
+                    controller.os_count_restant.value = f"Preventivas restantes {controller.lines_for_finalize()} de {len(controller.df)}"
+                    controller.os_count_restant.update()
+
+                    page.snack_bar = ft.SnackBar(
+                        ft.Text(f"OS '{row['N_OS']}' marcada como Finalizada.")
+                    )
+                    page.snack_bar.open = True
+                    page.update()
+                    return
+
+            page.snack_bar = ft.SnackBar(ft.Text("Todas as OS já estão finalizadas."))
+            page.snack_bar.open = True
+            reload_data(None)
+            page.update()
+
+        except Exception as ex:
+            logging.error(f"Erro ao pular a OS: {ex}")
+            page.snack_bar = ft.SnackBar(ft.Text(f"Erro ao pular a OS: {ex}"))
+            page.snack_bar.open = True
+            page.update()
+
+    skip_os_button = ft.ElevatedButton("Pular OS", on_click=skip_os)
+
     def reload_data(e):
         try:
             controller.df = pd.read_excel(SOURCE_FILE)
@@ -258,7 +288,8 @@ def main(page: ft.Page):
         page.update()
 
     save_button = ft.ElevatedButton(
-        "Salvar Configurações", on_click=save_config_handler
+        content=ft.Text("Salvar Configurações", size=13),
+        on_click=save_config_handler,
     )
 
     controller.start_button = ft.ElevatedButton(
@@ -530,7 +561,20 @@ def main(page: ft.Page):
     page.add(
         top_buttons,
         insert_date,
-        save_button,
+        ft.Row(
+            [
+                ft.Container(
+                    content=save_button,
+                    expand=True,
+                ),
+                ft.Container(
+                    content=skip_os_button,
+                    expand=True,
+                ),
+            ],
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            spacing=10,
+        ),
         upload_buttons,
         button_controller,
         ft.Column(
