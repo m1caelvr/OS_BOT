@@ -507,8 +507,6 @@ def main(page: ft.Page):
         label="Inserir N_OS",
         multiline=True,
         hint_text="Digite um N_OS por linha",
-        # width=window_width * 0.4,
-        expand=True,
         text_size=11,
     )
 
